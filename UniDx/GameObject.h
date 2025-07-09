@@ -74,7 +74,8 @@ public:
     template<typename T>
     T* GetComponent() {
         for (auto& comp : components) {
-            if (auto casted = dynamic_cast<T*>(comp.get())) {
+            auto casted = dynamic_cast<T*>(comp.get());
+            if (casted != nullptr && comp->enabled) {
                 return casted;
             }
         }

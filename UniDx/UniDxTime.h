@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Property.h"
 
 namespace UniDx
 {
 
-// Timeî•ñ
+// Timeæƒ…å ±
 class Time
 {
 public:

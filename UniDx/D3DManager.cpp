@@ -1,16 +1,14 @@
-#include "D3DManager.h"
+ï»¿#include "D3DManager.h"
 
 #include <windows.h>
 
 namespace UniDx{
 
-D3DManager* D3DManager::s_instance = nullptr;
-
-// Direct3D‚ğ‰Šú‰»‚µAg—p‚Å‚«‚é‚æ‚¤‚É‚·‚é
+// Direct3Dã‚’åˆæœŸåŒ–ã—ã€ä½¿ç”¨ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 bool D3DManager::Initialize(HWND hWnd, int width, int height)
 {
 	// ----------------------------------------------------------
-	// ƒtƒ@ƒNƒgƒŠ[ì¬(ƒrƒfƒI ƒOƒ‰ƒtƒBƒbƒN‚Ìİ’è‚Ì—ñ‹“‚âw’è‚Ég—p‚³‚ê‚éƒIƒuƒWƒFƒNƒg)
+	// ãƒ•ã‚¡ã‚¯ãƒˆãƒªãƒ¼ä½œæˆ(ãƒ“ãƒ‡ã‚ª ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®è¨­å®šã®åˆ—æŒ™ã‚„æŒ‡å®šã«ä½¿ç”¨ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ)
 	// ----------------------------------------------------------
 	ComPtr<IDXGIFactory> factory;
 
@@ -20,12 +18,12 @@ bool D3DManager::Initialize(HWND hWnd, int width, int height)
 	}
 
 	// ----------------------------------------------------------
-	// ƒfƒoƒCƒX¶¬(å‚ÉƒŠƒ\[ƒXì¬‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg)
+	// ãƒ‡ãƒã‚¤ã‚¹ç”Ÿæˆ(ä¸»ã«ãƒªã‚½ãƒ¼ã‚¹ä½œæˆæ™‚ã«ä½¿ç”¨ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ)
 	// ----------------------------------------------------------
 	UINT creationFlags = 0;
 
 #ifdef _DEBUG
-	// DEBUGƒrƒ‹ƒh‚ÍDirect3D‚ÌƒfƒoƒbƒO‚ğ—LŒø‚É‚·‚é
+	// DEBUGãƒ“ãƒ«ãƒ‰æ™‚ã¯Direct3Dã®ãƒ‡ãƒãƒƒã‚°ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 	creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
@@ -40,7 +38,7 @@ bool D3DManager::Initialize(HWND hWnd, int width, int height)
 		D3D_FEATURE_LEVEL_9_1,	// Direct3D 9.1   ShaderModel 3
 	};
 
-	// ƒfƒoƒCƒX‚Æ‚ÅƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğì¬
+	// ãƒ‡ãƒã‚¤ã‚¹ã¨ã§ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’ä½œæˆ
 	D3D_FEATURE_LEVEL futureLevel;
 	if (FAILED(D3D11CreateDevice(
 		nullptr,
@@ -58,39 +56,39 @@ bool D3DManager::Initialize(HWND hWnd, int width, int height)
 	}
 
 	// ----------------------------------------------------------
-	// ƒXƒƒbƒvƒ`ƒFƒCƒ“ì¬(ƒtƒƒ“ƒgƒoƒbƒtƒ@‚É•\¦‰Â”\‚ÈƒoƒbƒNƒoƒbƒtƒ@‚ğ‚Â‚à‚Ì)
+	// ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ä½œæˆ(ãƒ•ãƒ­ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã«è¡¨ç¤ºå¯èƒ½ãªãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã‚’æŒã¤ã‚‚ã®)
 	// ----------------------------------------------------------
-	DXGI_SWAP_CHAIN_DESC scDesc = {};		// ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìİ’èƒf[ƒ^
-	scDesc.BufferDesc.Width = width;						// ‰æ–Ê‚Ì•
-	scDesc.BufferDesc.Height = height;						// ‰æ–Ê‚Ì‚‚³
-	scDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// ƒoƒbƒtƒ@‚ÌŒ`®
+	DXGI_SWAP_CHAIN_DESC scDesc = {};		// ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ã®è¨­å®šãƒ‡ãƒ¼ã‚¿
+	scDesc.BufferDesc.Width = width;						// ç”»é¢ã®å¹…
+	scDesc.BufferDesc.Height = height;						// ç”»é¢ã®é«˜ã•
+	scDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// ãƒãƒƒãƒ•ã‚¡ã®å½¢å¼
 	scDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	scDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	scDesc.BufferDesc.RefreshRate.Numerator = 0;
 	scDesc.BufferDesc.RefreshRate.Denominator = 1;
-	scDesc.SampleDesc.Count = 1;							// MSAA‚Íg—p‚µ‚È‚¢
-	scDesc.SampleDesc.Quality = 0;							// MSAA‚Íg—p‚µ‚È‚¢
-	scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// ƒoƒbƒtƒ@‚Ìg—p•û–@
-	scDesc.BufferCount = 2;									// ƒoƒbƒtƒ@‚Ì”
+	scDesc.SampleDesc.Count = 1;							// MSAAã¯ä½¿ç”¨ã—ãªã„
+	scDesc.SampleDesc.Quality = 0;							// MSAAã¯ä½¿ç”¨ã—ãªã„
+	scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// ãƒãƒƒãƒ•ã‚¡ã®ä½¿ç”¨æ–¹æ³•
+	scDesc.BufferCount = 2;									// ãƒãƒƒãƒ•ã‚¡ã®æ•°
 	scDesc.OutputWindow = hWnd;
-	scDesc.Windowed = TRUE;									// ƒEƒBƒ“ƒhƒEƒ‚[ƒh
+	scDesc.Windowed = TRUE;									// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰
 	scDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	scDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-	// ƒXƒƒbƒvƒ`ƒFƒCƒ“‚Ìì¬
+	// ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ã®ä½œæˆ
 	if (FAILED(factory->CreateSwapChain(m_device.Get(), &scDesc, &m_swapChain)))
 	{
 		return false;
 	}
 
-	// ƒXƒƒbƒvƒ`ƒFƒCƒ“‚©‚çƒoƒbƒNƒoƒbƒtƒ@ƒŠƒ\[ƒXæ“¾
+	// ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ã‹ã‚‰ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ãƒªã‚½ãƒ¼ã‚¹å–å¾—
 	ComPtr<ID3D11Texture2D> pBackBuffer;
 	if (FAILED(m_swapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer))))
 	{
 		return false;
 	}
 
-	// ƒoƒbƒNƒoƒbƒtƒ@ƒŠƒ\[ƒX—p‚ÌRTV‚ğì¬
+	// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ãƒªã‚½ãƒ¼ã‚¹ç”¨ã®RTVã‚’ä½œæˆ
 	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
 	rtvDesc.Format = scDesc.BufferDesc.Format;
 	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
@@ -100,7 +98,7 @@ bool D3DManager::Initialize(HWND hWnd, int width, int height)
 	}
 
 	// ----------------------------------------------------------
-	// [“xƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@‚Æƒrƒ…[‚Ìì¬
+	// æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ãƒãƒƒãƒ•ã‚¡ã¨ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	// ----------------------------------------------------------
 	D3D11_TEXTURE2D_DESC depthDesc = {};
 	depthDesc.Width = width;
@@ -131,12 +129,12 @@ bool D3DManager::Initialize(HWND hWnd, int width, int height)
 	}
 
 	// ----------------------------------------------------------
-	// [“xƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg‚Ìì¬
+	// æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆã®ä½œæˆ
 	// ----------------------------------------------------------
 	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
-	dsDesc.DepthEnable = TRUE; // [“xƒeƒXƒg—LŒø
+	dsDesc.DepthEnable = TRUE; // æ·±åº¦ãƒ†ã‚¹ãƒˆæœ‰åŠ¹
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	dsDesc.DepthFunc = D3D11_COMPARISON_LESS; // ¬‚³‚¢’l‚ªè‘O
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS; // å°ã•ã„å€¤ãŒæ‰‹å‰
 
 	dsDesc.StencilEnable = FALSE;
 
@@ -146,30 +144,30 @@ bool D3DManager::Initialize(HWND hWnd, int width, int height)
 	}
 
 	// ----------------------------------------------------------
-	// ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É•`‰æ‚ÉŠÖ‚·‚éİ’è‚ğs‚Á‚Ä‚¨‚­
+	// ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã«æç”»ã«é–¢ã™ã‚‹è¨­å®šã‚’è¡Œã£ã¦ãŠã
 	// ----------------------------------------------------------
 
-	// ƒoƒbƒNƒoƒbƒtƒ@‚ğRT‚Æ‚µ‚ÄƒZƒbƒg
+	// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã‚’RTã¨ã—ã¦ã‚»ãƒƒãƒˆ
 //	m_context->OMSetRenderTargets(1, m_renderTarget.GetAddressOf(), nullptr);
 	m_context->OMSetRenderTargets(1, m_renderTarget.GetAddressOf(), m_depthStencilView.Get());
 
-	// ƒrƒ…[ƒ|[ƒg‚Ìİ’è
+	// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã®è¨­å®š
 	D3D11_VIEWPORT vp = { 0.0f, 0.0f, (float)width, (float)height, 0.0f, 1.0f };
 	m_context->RSSetViewports(1, &vp);
 
-	// [“xƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg‚ÌƒZƒbƒg
+	// æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆã®ã‚»ãƒƒãƒˆ
 	m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 1);
 
 	return true;
 }
 
 
-// ƒoƒbƒNƒoƒbƒtƒ@ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğƒNƒŠƒA
+// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’ã‚¯ãƒªã‚¢
 void D3DManager::Clear(float r, float g, float b, float a)
 {
 	const float color[4] = { r, g, b, a };
 	m_context->ClearRenderTargetView(m_renderTarget.Get(), color);
-//	m_context->OMSetRenderTargets(1, m_renderTarget.GetAddressOf(), nullptr); // [“xƒXƒeƒ“ƒVƒ‹–¢g—p
+//	m_context->OMSetRenderTargets(1, m_renderTarget.GetAddressOf(), nullptr); // æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«æœªä½¿ç”¨
 	m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	m_context->OMSetRenderTargets(1, m_renderTarget.GetAddressOf(), m_depthStencilView.Get());
 }

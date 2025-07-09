@@ -1,4 +1,4 @@
-// week01.cpp : ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒGƒ“ƒgƒŠ ƒ|ƒCƒ“ƒg‚ğ’è‹`‚µ‚Ü‚·B
+ï»¿// week01.cpp : ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¨ãƒ³ãƒˆãƒª ãƒã‚¤ãƒ³ãƒˆã‚’å®šç¾©ã—ã¾ã™ã€‚
 //
 
 #include "Engine.h"
@@ -7,14 +7,14 @@
 #include <chrono>
 
 #include <Keyboard.h>          // DirectXTK
-#include <SimpleMath.h>        // DirectXTK •Ö—˜”Šwƒ†[ƒeƒBƒŠƒeƒB
+#include <SimpleMath.h>        // DirectXTK ä¾¿åˆ©æ•°å­¦ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-// DirectXƒeƒNƒXƒ`ƒƒƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚Å‚«‚é‚æ‚¤‚É‚·‚é
+// DirectXãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ä½¿ç”¨ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 #include <DirectXTex.h>
 
-// DirextXƒtƒHƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚Å‚«‚é‚æ‚¤‚É‚·‚é
+// DirextXãƒ•ã‚©ãƒ³ãƒˆãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ä½¿ç”¨ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 #include <SpriteFont.h>
 
 #include "D3DManager.h"
@@ -26,10 +26,11 @@ using namespace DirectX::SimpleMath;
 #include "Camera.h"
 #include "Renderer.h"
 #include "Transform.h"
+#include "Physics.h"
 #include "Input.h"
 #include "Debug.h"
 
-// ƒtƒHƒ“ƒg•`‰æ—p
+// ãƒ•ã‚©ãƒ³ãƒˆæç”»ç”¨
 std::unique_ptr<SpriteBatch> g_spriteBatch;
 std::unique_ptr<SpriteFont>  g_spriteFont;
 std::wstring text[4];
@@ -40,30 +41,35 @@ using namespace UniDx;
 namespace UniDx
 {
 
-//
-//   ŠÖ”: Initialize(HWND hWnd)
-//
+// -----------------------------------------------------------------------------
+//   Initialize(HWND hWnd)
+// -----------------------------------------------------------------------------
 void Engine::Initialize(HWND hWnd)
 {
-    // Direct3DƒCƒ“ƒXƒ^ƒ“ƒXì¬
+    // Direct3Dã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆ
     D3DManager::create();
 
-    // Direct3D‰Šú‰»
+    // Direct3DåˆæœŸåŒ–
     D3DManager::instance->Initialize(hWnd, 1280, 720);
 
-    // ƒV[ƒ“ƒ}ƒl[ƒWƒƒ‚ÌƒCƒ“ƒXƒ^ƒ“ƒXì¬
+    // ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆ
     SceneManager::create();
 
-    // “ü—Í‚Ì‰Šú‰»
+    // å…¥åŠ›ã®åˆæœŸåŒ–
     Input::initialize();
 
-    // ƒtƒHƒ“ƒg‰Šú‰»
+    // ç‰©ç†ã‚¨ãƒ³ã‚¸ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆ
+    Physics::create();
+
+    // ãƒ•ã‚©ãƒ³ãƒˆåˆæœŸåŒ–
     g_spriteBatch = std::make_unique<SpriteBatch>(D3DManager::instance->GetContext().Get());
     g_spriteFont = std::make_unique<SpriteFont>(D3DManager::instance->GetDevice().Get(), L"Resource/M PLUS 1.spritefont");
 }
 
 
-// ‰ŠúƒV[ƒ“ì¬
+// -----------------------------------------------------------------------------
+// åˆæœŸã‚·ãƒ¼ãƒ³ä½œæˆ
+// -----------------------------------------------------------------------------
 void Engine::createScene()
 {
     SceneManager::instance->createScene();
@@ -76,6 +82,9 @@ void Engine::createScene()
 }
 
 
+// -----------------------------------------------------------------------------
+// ã‚²ãƒ¼ãƒ å…¨ä½“ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ«ãƒ¼ãƒ—
+// -----------------------------------------------------------------------------
 int Engine::PlayerLoop()
 {
     MSG msg;
@@ -83,18 +92,18 @@ int Engine::PlayerLoop()
     Time::Start();
     double restFixedUpdateTime = 0.0f;
 
-    // ƒfƒtƒHƒ‹ƒg‚ÌƒV[ƒ“ì¬
+    // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚·ãƒ¼ãƒ³ä½œæˆ
     createScene();
 
-    // ƒƒCƒ“ ƒƒbƒZ[ƒW ƒ‹[ƒv:
+    // ãƒ¡ã‚¤ãƒ³ ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒ«ãƒ¼ãƒ—:
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             //============================================
-            // ƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒWˆ—
+            // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
             //============================================
-            // I—¹ƒƒbƒZ[ƒW‚ª‚«‚½
+            // çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒããŸ
             if (msg.message == WM_QUIT) {
                 break;
             }
@@ -105,23 +114,23 @@ int Engine::PlayerLoop()
             }
         }
 
-        using clock = std::chrono::steady_clock;          // ƒ‚ƒmƒgƒjƒbƒN‚È‚Ì‚ÅŒo‰ßŠÔŒv‘ªŒü‚«
+        using clock = std::chrono::steady_clock;          // ãƒ¢ãƒãƒˆãƒ‹ãƒƒã‚¯ãªã®ã§çµŒéæ™‚é–“è¨ˆæ¸¬å‘ã
         auto start = clock::now();
 
         //============================================
-        // ƒQ[ƒ€‚Ìˆ—‚ğ‘‚­
+        // ã‚²ãƒ¼ãƒ ã®å‡¦ç†ã‚’æ›¸ã
         //============================================
-        // ‰æ–Ê‚ğ“h‚è‚Â‚Ô‚·
+        // ç”»é¢ã‚’å¡—ã‚Šã¤ã¶ã™
         D3DManager::instance->Clear(0.3f, 0.5f, 0.9f, 1.0f);
 
         Time::SetDeltaTimeFixed();
 
         while (restFixedUpdateTime > Time::fixedDeltaTime)
         {
-            // ŒÅ’èŠÔXVXV
+            // å›ºå®šæ™‚é–“æ›´æ–°æ›´æ–°
             fixedUpdate();
 
-            // •¨—ŒvZ
+            // ç‰©ç†è¨ˆç®—
             physics();
 
             restFixedUpdateTime -= Time::fixedDeltaTime;
@@ -129,36 +138,36 @@ int Engine::PlayerLoop()
 
         Time::SetDeltaTimeFrame();
 
-        // “ü—ÍXV
+        // å…¥åŠ›æ›´æ–°
         input();
 
-        // XVˆ—
+        // æ›´æ–°å‡¦ç†
         update();
 
-        // ŒãXVˆ—
+        // å¾Œæ›´æ–°å‡¦ç†
         lateUpdate();
 
-        // •`‰æˆ—
+        // æç”»å‡¦ç†
         render();
 
-        // ƒoƒbƒNƒoƒbƒtƒ@‚Ì“à—e‚ğ‰æ–Ê‚É•\¦
+        // ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‚’ç”»é¢ã«è¡¨ç¤º
         D3DManager::instance->Present();
 
-        // ŠÔŒvZ
+        // æ™‚é–“è¨ˆç®—
         double deltaTime = std::chrono::duration<double>(clock::now() - start).count();
         restFixedUpdateTime += deltaTime;
 
         Time::UpdateFrame(deltaTime);
     }
 
-    // I—¹ˆ—
+    // çµ‚äº†å‡¦ç†
     finalize();
 
     return (int)msg.wParam;
 }
 
 
-// ŒÅ’èŠÔXVXV
+// å›ºå®šæ™‚é–“æ›´æ–°æ›´æ–°
 void Engine::fixedUpdate()
 {
     for (auto& it : SceneManager::instance->GetActiveScene()->GetRootGameObjects())
@@ -168,14 +177,14 @@ void Engine::fixedUpdate()
 }
 
 
-// •¨—ŒvZ
+// ç‰©ç†è¨ˆç®—
 void Engine::physics()
 {
-
+    Physics::instance->simulatePositionCorrection(Time::fixedDeltaTime);
 }
 
 
-// “ü—ÍXV
+// å…¥åŠ›æ›´æ–°
 void Engine::input()
 {
     Input::update();
@@ -183,19 +192,19 @@ void Engine::input()
 
 
 //
-//  ŠÖ”: Update()
+//  é–¢æ•°: Update()
 //
-//  –Ú“I: ƒQ[ƒ€‚ÌXVˆ—‚ğs‚¢‚Ü‚·B
+//  ç›®çš„: ã‚²ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 //
 void Engine::update()
 {
-    // ŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì Start()
+    // å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã® Start()
     for (auto& it : SceneManager::instance->GetActiveScene()->GetRootGameObjects())
     {
         checkStart(&*it);
     }
 
-    // ŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì Update()
+    // å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã® Update()
     for (auto& it : SceneManager::instance->GetActiveScene()->GetRootGameObjects())
     {
         update(&*it);
@@ -208,10 +217,10 @@ void Engine::update()
 }
 
 
-// ŒãXVˆ—
+// å¾Œæ›´æ–°å‡¦ç†
 void Engine::lateUpdate()
 {
-    // ŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì LateUpdate()
+    // å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã® LateUpdate()
     for (auto& it : SceneManager::instance->GetActiveScene()->GetRootGameObjects())
     {
         lateUpdate(&*it);
@@ -220,9 +229,9 @@ void Engine::lateUpdate()
 
 
 //
-//  ŠÖ”: Render()
+//  é–¢æ•°: Render()
 //
-//  –Ú“I: ‰æ–Ê‚Ì•`‰æˆ—‚ğs‚¢‚Ü‚·B
+//  ç›®çš„: ç”»é¢ã®æç”»å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 //
 void Engine::render()
 {
@@ -239,7 +248,7 @@ void Engine::render()
 
     g_spriteBatch->End();
 
-    // ŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì Render()
+    // å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã® Render()
     Camera* camera = Camera::main;
     if (camera != nullptr)
     {
@@ -251,7 +260,7 @@ void Engine::render()
 }
 
 
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 void Engine::finalize()
 {
 
@@ -260,13 +269,13 @@ void Engine::finalize()
 
 void Engine::awake(GameObject* object)
 {
-    // ©g‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’†‚ÅAwake‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢‚à‚Ì‚ğŒÄ‚Ô
+    // è‡ªèº«ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸­ã§Awakeã‚’å‘¼ã³å‡ºã—ã¦ã„ãªã„ã‚‚ã®ã‚’å‘¼ã¶
     for (auto& it : object->GetComponents())
     {
         it->checkAwake();
     }
 
-    // q‹Ÿ‚ÌƒIƒuƒWƒFƒNƒg‚É‚Â‚¢‚ÄÄ‹A
+    // å­ä¾›ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã¤ã„ã¦å†å¸°
     for (auto& it : object->transform->getChildGameObjects())
     {
         awake(&*it);
@@ -276,7 +285,7 @@ void Engine::awake(GameObject* object)
 
 void Engine::fixedUpdate(GameObject* object)
 {
-    // FixedUpdate‚ğŒÄ‚Ô
+    // FixedUpdateã‚’å‘¼ã¶
     for (auto& it : object->GetComponents())
     {
         auto behaviour = dynamic_cast<Behaviour*>(it.get());
@@ -286,7 +295,7 @@ void Engine::fixedUpdate(GameObject* object)
         }
     }
 
-    // q‹Ÿ‚ÌƒIƒuƒWƒFƒNƒg‚É‚Â‚¢‚ÄÄ‹A
+    // å­ä¾›ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã¤ã„ã¦å†å¸°
     for (auto& it : object->transform->getChildGameObjects())
     {
         fixedUpdate(&*it);
@@ -296,7 +305,7 @@ void Engine::fixedUpdate(GameObject* object)
 
 void Engine::checkStart(GameObject* object)
 {
-    // ©g‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’†‚ÅStart‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢‚à‚Ì‚ğŒÄ‚Ô
+    // è‡ªèº«ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸­ã§Startã‚’å‘¼ã³å‡ºã—ã¦ã„ãªã„ã‚‚ã®ã‚’å‘¼ã¶
     for (auto& it : object->GetComponents())
     {
         auto behaviour = dynamic_cast<Behaviour*>(it.get());
@@ -306,7 +315,7 @@ void Engine::checkStart(GameObject* object)
         }
     }
 
-    // q‹Ÿ‚ÌƒIƒuƒWƒFƒNƒg‚É‚Â‚¢‚ÄÄ‹A
+    // å­ä¾›ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã¤ã„ã¦å†å¸°
     for (auto& it : object->transform->getChildGameObjects())
     {
         checkStart(&*it);
@@ -316,7 +325,7 @@ void Engine::checkStart(GameObject* object)
 
 void Engine::update(GameObject* object)
 {
-    // Update‚ğŒÄ‚Ô
+    // Updateã‚’å‘¼ã¶
     for (auto& it : object->GetComponents())
     {
         auto behaviour = dynamic_cast<Behaviour*>(it.get());
@@ -326,7 +335,7 @@ void Engine::update(GameObject* object)
         }
     }
 
-    // q‹Ÿ‚ÌƒIƒuƒWƒFƒNƒg‚É‚Â‚¢‚ÄÄ‹A
+    // å­ä¾›ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã¤ã„ã¦å†å¸°
     for (auto& it : object->transform->getChildGameObjects())
     {
         update(&*it);
@@ -336,7 +345,7 @@ void Engine::update(GameObject* object)
 
 void Engine::lateUpdate(GameObject* object)
 {
-    // ©g‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’†‚ÅFixedUpdate‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢‚à‚Ì‚ğŒÄ‚Ô
+    // è‡ªèº«ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸­ã§FixedUpdateã‚’å‘¼ã³å‡ºã—ã¦ã„ãªã„ã‚‚ã®ã‚’å‘¼ã¶
     for (auto& it : object->GetComponents())
     {
         auto behaviour = dynamic_cast<Behaviour*>(it.get());
@@ -346,7 +355,7 @@ void Engine::lateUpdate(GameObject* object)
         }
     }
 
-    // q‹Ÿ‚ÌƒIƒuƒWƒFƒNƒg‚É‚Â‚¢‚ÄÄ‹A
+    // å­ä¾›ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã¤ã„ã¦å†å¸°
     for (auto& it : object->transform->getChildGameObjects())
     {
         lateUpdate(&*it);
@@ -356,7 +365,7 @@ void Engine::lateUpdate(GameObject* object)
 
 void Engine::render(GameObject* object, const Camera& camera)
 {
-    // ©g‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’†‚ÅFixedUpdate‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢‚à‚Ì‚ğŒÄ‚Ô
+    // è‡ªèº«ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸­ã§FixedUpdateã‚’å‘¼ã³å‡ºã—ã¦ã„ãªã„ã‚‚ã®ã‚’å‘¼ã¶
     for (auto& it : object->GetComponents())
     {
         auto renderer = dynamic_cast<Renderer*>(it.get());
@@ -366,7 +375,7 @@ void Engine::render(GameObject* object, const Camera& camera)
         }
     }
 
-    // q‹Ÿ‚ÌƒIƒuƒWƒFƒNƒg‚É‚Â‚¢‚ÄÄ‹A
+    // å­ä¾›ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã¤ã„ã¦å†å¸°
     for (auto& it : object->transform->getChildGameObjects())
     {
         render(&*it, camera);

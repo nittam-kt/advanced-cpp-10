@@ -234,6 +234,24 @@
     <ClInclude Include="source\SquareThrustRenderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\UniDx\Rigidbody.h">
+      <Filter>UniDx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UniDx\Physics.h">
+      <Filter>UniDx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UniDx\Bounds.h">
+      <Filter>UniDx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UniDx\Collider.h">
+      <Filter>UniDx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UniDx\Random.h">
+      <Filter>UniDx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UniDx\Sphere.h">
+      <Filter>UniDx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\UniDx\Shader.cpp">
@@ -296,6 +314,12 @@
     <ClCompile Include="source\SquareThrustRenderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\UniDx\Physics.cpp">
+      <Filter>UniDx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UniDx\Collider.cpp">
+      <Filter>UniDx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="week01.rc">
@@ -313,6 +337,9 @@
       <Filter>リソース ファイル</Filter>
     </Image>
     <Image Include="Resource\ModularCharacterAlbedo.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\gradation.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>

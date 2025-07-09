@@ -39,8 +39,6 @@ public:
 	}
 
 private:
-	static D3DManager* s_instance; // インスタンス	
-
 	ComPtr<ID3D11Device>			m_device; // Direct3Dデバイス
 	ComPtr<ID3D11DeviceContext>		m_context; // Direct3Dデバイスコンテキスト
 	ComPtr<IDXGISwapChain>			m_swapChain; // スワップチェイン

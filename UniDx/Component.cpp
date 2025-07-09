@@ -33,4 +33,17 @@ Component::Component() :
 
 }
 
+// デストラクタ
+Component::~Component()
+{
+    if (_enabled)
+    {
+        enabled = false;
+    }
+    if (isCalledAwake)
+    {
+        OnDestroy();
+    }
+}
+
 }

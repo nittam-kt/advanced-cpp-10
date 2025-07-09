@@ -24,7 +24,7 @@
     <ProjectGuid>{5a09b918-3419-4151-8952-e8a4a19a191d}</ProjectGuid>
     <RootNamespace>week01</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>week07</ProjectName>
+    <ProjectName>week10</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -171,7 +171,9 @@
     <ClInclude Include="..\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\tinygltf\tiny_gltf.h" />
     <ClInclude Include="..\UniDx\Behaviour.h" />
+    <ClInclude Include="..\UniDx\Bounds.h" />
     <ClInclude Include="..\UniDx\Camera.h" />
+    <ClInclude Include="..\UniDx\Collider.h" />
     <ClInclude Include="..\UniDx\Component.h" />
     <ClInclude Include="..\UniDx\D3DManager.h" />
     <ClInclude Include="..\UniDx\Debug.h" />
@@ -182,12 +184,16 @@
     <ClInclude Include="..\UniDx\Material.h" />
     <ClInclude Include="..\UniDx\Mesh.h" />
     <ClInclude Include="..\UniDx\Object.h" />
+    <ClInclude Include="..\UniDx\Physics.h" />
     <ClInclude Include="..\UniDx\PrimitiveRenderer.h" />
     <ClInclude Include="..\UniDx\Property.h" />
+    <ClInclude Include="..\UniDx\Random.h" />
     <ClInclude Include="..\UniDx\Renderer.h" />
+    <ClInclude Include="..\UniDx\Rigidbody.h" />
     <ClInclude Include="..\UniDx\Scene.h" />
     <ClInclude Include="..\UniDx\SceneManager.h" />
     <ClInclude Include="..\UniDx\Shader.h" />
+    <ClInclude Include="..\UniDx\Sphere.h" />
     <ClInclude Include="..\UniDx\Texture.h" />
     <ClInclude Include="..\UniDx\Transform.h" />
     <ClInclude Include="..\UniDx\UniDxDefine.h" />
@@ -205,6 +211,7 @@
   <ItemGroup>
     <ClCompile Include="..\tinygltf\tiny_gltf.cc" />
     <ClCompile Include="..\UniDx\Camera.cpp" />
+    <ClCompile Include="..\UniDx\Collider.cpp" />
     <ClCompile Include="..\UniDx\Component.cpp" />
     <ClCompile Include="..\UniDx\D3DManager.cpp" />
     <ClCompile Include="..\UniDX\Engine.cpp" />
@@ -212,6 +219,7 @@
     <ClCompile Include="..\UniDx\Input.cpp" />
     <ClCompile Include="..\UniDx\Material.cpp" />
     <ClCompile Include="..\UniDx\Mesh.cpp" />
+    <ClCompile Include="..\UniDx\Physics.cpp" />
     <ClCompile Include="..\UniDx\PrimitiveRenderer.cpp" />
     <ClCompile Include="..\UniDx\Renderer.cpp" />
     <ClCompile Include="..\UniDx\Shader.cpp" />
@@ -229,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\floor.png" />
+    <Image Include="Resource\gradation.png" />
     <Image Include="Resource\ModularCharacterAlbedo.png" />
     <Image Include="small.ico" />
     <Image Include="week01.ico" />

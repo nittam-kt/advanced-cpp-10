@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <SimpleMath.h>
 
 #include "Object.h"
 #include "Property.h"
@@ -46,17 +45,7 @@ public:
         }
     }
 
-    virtual ~Component()
-    {
-        if (_enabled)
-        {
-            enabled = false;
-        }
-        if (isCalledAwake)
-        {
-            OnDestroy();
-        }
-    }
+    virtual ~Component();
 
 protected:
     virtual void Awake() {}

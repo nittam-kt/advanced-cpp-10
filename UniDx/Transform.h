@@ -124,6 +124,25 @@ public:
 
     virtual ~Transform();
 
+    // ローカル空間の方向ベクトルをワールド空間の方向ベクトルに変換
+    Vector3 TransformDirection(const Vector3& localDirection) const {
+        // 平行移動成分を除外した回転・スケールのみ適用
+        Matrix m = getLocalToWorldMatrix();
+        m.Translation(Vector3(0, 0, 0)); // 平行移動を除外
+        return Vector3::TransformNormal(localDirection, m);
+    }
+
+    // ローカル空間のベクトルをワールド空間のベクトルに変換（スケール・回転のみ、平行移動なし）
+    Vector3 TransformVector(const Vector3& localVector) const {
+        // TransformDirectionと同じ実装（Unityと同様の意味）
+        return TransformDirection(localVector);
+    }
+
+    // ローカル空間の座標をワールド空間の座標に変換
+    Vector3 TransformPoint(const Vector3& localPoint) const {
+        return Vector3::Transform(localPoint, getLocalToWorldMatrix());
+    }
+
 private:
     // ダーティフラグと行列
     mutable bool m_dirty = true;
