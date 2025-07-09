@@ -56,7 +56,7 @@ unique_ptr<Scene> CreateDefaultScene()
             make_unique<Rigidbody>(),
             make_unique<SphereCollider>()
         );
-        b->transform->localPosition = Random::global().insideUnitSphere() * 2 + Vector3(0, 3, 1);
+        b->transform->localPosition = Random::global().insideUnitSphere() * 3 + Vector3(0, 3, 2);
     }
 
     // キューブレンダラを作ってサイズを調整

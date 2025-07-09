@@ -20,7 +20,7 @@ constexpr float infinity = numeric_limits<float>::infinity();
 bool checkIntersect_(SphereCollider* sphere, AABBCollider* aabb)
 {
     // 球の中心（ワールド座標）
-    Vector3 sphereCenter = sphere->transform->position + sphere->transform->TransformVector(sphere->center);
+    Vector3 sphereCenter = sphere->transform->TransformPoint(sphere->center);
     float sphereRadius = sphere->radius;
 
     // AABBのBounds
@@ -132,17 +132,9 @@ Bounds AABBCollider::getBounds() const
 
 // 衝突チェック
 // 衝突していれば attachedRigidbody に addCorrectPosition(), addCorrectVelocity() で補正する
-bool SphereCollider::checkIntersect(SphereCollider* other)
+bool AABBCollider::checkIntersect(AABBCollider* other)
 {
     return false;
-}
-
-
-// 衝突チェック
-// 衝突していれば attachedRigidbody に addCorrectPosition(), addCorrectVelocity() で補正する
-bool SphereCollider::checkIntersect(AABBCollider* other)
-{
-    return checkIntersect_(this, other);
 }
 
 
@@ -156,8 +148,21 @@ bool AABBCollider::checkIntersect(SphereCollider* other)
 
 // 衝突チェック
 // 衝突していれば attachedRigidbody に addCorrectPosition(), addCorrectVelocity() で補正する
-bool AABBCollider::checkIntersect(AABBCollider* other)
+bool SphereCollider::checkIntersect(AABBCollider* other)
 {
+    return checkIntersect_(this, other);
+}
+
+
+// 衝突チェック
+// 衝突していれば attachedRigidbody に addCorrectPosition(), addCorrectVelocity() で補正する
+bool SphereCollider::checkIntersect(SphereCollider* other)
+{
+    Vector3 centerA = transform->TransformPoint(center);
+    float radiusA = radius;
+    Vector3 centerB = other->transform->TransformPoint(other->center);
+    float radiusB = other->radius;
+
     return false;
 }
 

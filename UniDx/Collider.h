@@ -46,15 +46,15 @@ private:
 
 
 // --------------------
-// SphereCollider
+// AABBCollider
 // --------------------
-class SphereCollider : public Collider
+class AABBCollider : public Collider
 {
 public:
     Vector3 center;
-    float radius;
+    Vector3 size;
 
-    SphereCollider() : center(Vector3::Zero), radius(0.5) {}
+    AABBCollider() : center(Vector3::Zero), size(Vector3::One) {}
 
     // ワールド空間における空間境界を取得
     virtual Bounds getBounds() const override;
@@ -68,15 +68,15 @@ public:
 
 
 // --------------------
-// AABBCollider
+// SphereCollider
 // --------------------
-class AABBCollider : public Collider
+class SphereCollider : public Collider
 {
 public:
     Vector3 center;
-    Vector3 size;
+    float radius;
 
-    AABBCollider() : center(Vector3::Zero), size(Vector3::One) {}
+    SphereCollider() : center(Vector3::Zero), radius(0.5) {}
 
     // ワールド空間における空間境界を取得
     virtual Bounds getBounds() const override;
