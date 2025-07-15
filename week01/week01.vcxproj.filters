@@ -252,6 +252,9 @@
     <ClInclude Include="..\UniDx\Sphere.h">
       <Filter>UniDx</Filter>
     </ClInclude>
+    <ClInclude Include="..\UniDx\GameObject_impl.h">
+      <Filter>UniDx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\UniDx\Shader.cpp">
@@ -336,10 +339,10 @@
     <Image Include="Resource\floor.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="Resource\ModularCharacterAlbedo.png">
+    <Image Include="Resource\gradation.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="Resource\gradation.png">
+    <Image Include="Resource\Albedo.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>

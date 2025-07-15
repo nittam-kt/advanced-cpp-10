@@ -13,9 +13,9 @@ using namespace UniDx;
 
 void TestCameraBehaviour::OnEnable()
 {
-    transform->localPosition = Vector3(0, 4, -4);
+    transform->localPosition = Vector3(0, 6, -2);
 
-    Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3(1, 0, 0), 0.5f);
+    Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3(1, 0, 0), 1);
     transform->localRotation = rot;
 }
 

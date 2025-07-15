@@ -179,6 +179,7 @@
     <ClInclude Include="..\UniDx\Debug.h" />
     <ClInclude Include="..\UniDX\Engine.h" />
     <ClInclude Include="..\UniDx\GameObject.h" />
+    <ClInclude Include="..\UniDx\GameObject_impl.h" />
     <ClInclude Include="..\UniDx\GltfRenderer.h" />
     <ClInclude Include="..\UniDx\Input.h" />
     <ClInclude Include="..\UniDx\Material.h" />
@@ -236,9 +237,9 @@
     <ResourceCompile Include="week01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource\Albedo.png" />
     <Image Include="Resource\floor.png" />
     <Image Include="Resource\gradation.png" />
-    <Image Include="Resource\ModularCharacterAlbedo.png" />
     <Image Include="small.ico" />
     <Image Include="week01.ico" />
   </ItemGroup>

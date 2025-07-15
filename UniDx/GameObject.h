@@ -11,7 +11,6 @@
 namespace UniDx {
 
 // 前方宣言
-class GameObject;
 class Component;
 class Behaviour;
 class Transform;
@@ -33,14 +32,15 @@ public:
         // デフォルトでTransformを追加
         transform = AddComponent<Transform>();
     }
-
     // 可変長引数でunique_ptr<Component>を受け取るコンストラクタ
-    template<typename... ComponentPtrs>
-    GameObject(const std::wstring& name, ComponentPtrs&&... components) : Object([this]() {return name_;}), name_(name)
+    template<typename First, typename... ComponentPtrs>
+        requires (!std::same_as<std::remove_cvref_t<First>, Vector3>)
+    GameObject(const std::wstring& name, First&& first, ComponentPtrs&&... components) : GameObject(name)
     {
-        transform = AddComponent<Transform>();
         Add(std::forward<ComponentPtrs>(components)...);
     }
+    template<typename... ComponentPtrs>
+    GameObject(const std::wstring& name, const Vector3& position, ComponentPtrs&&... components);
 
     void Add() {} // ヘルパー関数でパック展開
 

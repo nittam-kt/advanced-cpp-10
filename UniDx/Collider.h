@@ -54,7 +54,7 @@ public:
     Vector3 center;
     Vector3 size;
 
-    AABBCollider() : center(Vector3::Zero), size(Vector3::One) {}
+    AABBCollider() : center(Vector3::Zero), size(Vector3(0.5f,0.5f,0.5f)) {}
 
     // ワールド空間における空間境界を取得
     virtual Bounds getBounds() const override;

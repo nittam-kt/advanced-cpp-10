@@ -35,7 +35,7 @@ unique_ptr<Scene> CreateDefaultScene()
 
     // テクスチャを読み込んでマテリアルに追加
     auto t = make_unique<Texture>();
-    t->load(L"Resource/ModularCharacterAlbedo.png");
+    t->load(L"Resource/Albedo.png");
     material->addTexture(move(t));
 
     model->materials.push_back(move(material));
@@ -56,7 +56,7 @@ unique_ptr<Scene> CreateDefaultScene()
             make_unique<Rigidbody>(),
             make_unique<SphereCollider>()
         );
-        b->transform->localPosition = Random::global().insideUnitSphere() * 3 + Vector3(0, 3, 2);
+        b->transform->position = Random::global().insideUnitSphere() * 2.5 + Vector3(0, 3, 2);
     }
 
     // キューブレンダラを作ってサイズを調整

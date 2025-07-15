@@ -162,6 +162,45 @@ bool SphereCollider::checkIntersect(SphereCollider* other)
     float radiusA = radius;
     Vector3 centerB = other->transform->TransformPoint(other->center);
     float radiusB = other->radius;
+    
+    // 中心距離が半径の合計より離れていれば当たっていない
+    if (Vector3::Distance(centerA, centerB) > radiusA + radiusB)
+        return false;
+
+    // めり込みの深さ
+    float penetration = radiusA + radiusB - Vector3::Distance(centerA, centerB);
+
+    // 中心の差
+    Vector3 sub = centerB - centerA;
+
+    // それぞれの位置補正
+    Vector3 addB = sub;
+    addB.Normalize();
+    addB *= penetration * 0.5f;
+
+    other->attachedRigidbody->addCorrectPosition(addB);
+
+    Vector3 addA = -sub;
+    addA.Normalize();
+    addA *= penetration * 0.5f;
+
+    attachedRigidbody->addCorrectPosition(addA);
+
+    // 跳ね返り計算
+    Vector3 va = attachedRigidbody->velocity;
+    Vector3 vb = other->attachedRigidbody->velocity;
+
+    // Aの跳ね返り
+    Vector3 relV = va - vb;
+
+    Vector3 normal = sub;
+    normal.Normalize();
+    if (relV.Dot(normal) < 0)
+    {
+        return false;
+    }
+
+    Vector3 relVNormal = normal * relV.Dot(normal);
 
     return false;
 }
