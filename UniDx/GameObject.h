@@ -35,9 +35,9 @@ public:
     // 可変長引数でunique_ptr<Component>を受け取るコンストラクタ
     template<typename First, typename... ComponentPtrs>
         requires (!std::same_as<std::remove_cvref_t<First>, Vector3>)
-    GameObject(const std::wstring& name, First&& first, ComponentPtrs&&... components) : GameObject(name)
+    GameObject(const std::wstring& name, First&& first, ComponentPtrs&&... rest) : GameObject(name)
     {
-        Add(std::forward<ComponentPtrs>(components)...);
+        Add(std::forward<First>(first), std::forward<ComponentPtrs>(rest)...);
     }
     template<typename... ComponentPtrs>
     GameObject(const std::wstring& name, const Vector3& position, ComponentPtrs&&... components);
